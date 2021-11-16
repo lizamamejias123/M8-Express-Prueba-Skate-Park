@@ -1,0 +1,54 @@
+<div>
+
+<div class="py-4">
+<h2>Administración</h2>
+<hr class="w-50" />
+
+<table class="table w-50 m-auto">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Foto</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Años de experiencia</th>
+      <th scope="col">Especialidad</th>
+      <th scope="col">Estado</th>
+    </tr>
+  </thead>
+  <tbody id='cuerpo'>
+    {{#each usuarios}}
+    <tr>
+      <td>{{@index}}</td>
+      <td><img src='/img/{{this.foto}}' style='width:100px;'></td>
+      <td>{{this.nombre}}</td>
+      <td>{{this.anos_experiencia}}</td>
+      <td>{{this.especialidad}}</td>
+      <td><input type='checkbox' {{#if this.estado}} checked {{/if}} 
+            onclick='changeStatus({{this.id}},this)'></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  const changeStatus = async (id,e) => {
+    const estado = e.checked
+
+    try {
+      await axios.put('http://localhost:3000/usuarios',{
+      id,
+      estado
+    })
+
+    alert(estado ? 'Perfil de usuario aprobado' : 'Perfil de usuario en revisión')
+    
+    } catch ({ response }) {
+      const { data } = response
+      const { error } = data
+      alert(error)
+    }
+}
+</script>

@@ -1,0 +1,67 @@
+<div>
+    <h1>Skate Park</h1>
+
+    <div class="py-4">
+      <h2>Lista de participantes</h2>
+
+      <hr />
+
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Años de experiencia</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody id='cuerpo'>
+          
+        </tbody>
+      </table>
+      <a href="/login">Iniciar Sesión</a> |
+      <a href="/registro">Registrarme</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+<script>
+  let url = 'http://localhost:3000/usuario';
+  let tbody = document.getElementById('cuerpo');
+
+  let usuarios = [];
+  window.onload = getData();
+
+  async function getData() {
+    await axios.get(url + 's').then((data) => {
+      usuarios = data.data;
+
+      let estado;
+
+      usuarios.forEach((c,i) => {
+
+      if(c.estado == false) {
+        estado = '<td class="text-warning font-weight-bold">En revisión</td>';
+      } else {
+        estado = '<td class="text-success font-weight-bold">Aprobado</td>'
+      }
+
+      const ruta_foto = `/img/${c.foto}`
+
+        tbody.innerHTML +=`
+          <tr>
+            <td>${i + 1}</td>
+            <td><img src='${ruta_foto}' style='width:100px;'></td>
+            <td>${c.nombre}</td>
+            <td>${c.anos_experiencia}</td>
+            <td>${c.especialidad}</td>
+            ${estado}
+          </tr>
+        `
+      })
+    })
+  }
+</script>

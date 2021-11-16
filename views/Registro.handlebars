@@ -1,0 +1,123 @@
+<div>
+    <h1>Skate Park</h1>
+
+    <div class="py-4">
+      <h2>Registro</h2>
+      <hr class="w-50" />
+
+      <form 
+            method='POST'
+            enctype='multipart/form-data'
+            action = 'http://localhost:3000/registrar'
+            id="form"
+      >
+
+        <div class="form-group row w-50 m-auto">
+          <div class="form-group col-12 col-sm-6">
+            <label>Email</label>
+            <input class="form-control m-auto" id='email' name='email' required/>
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Nombre</label>
+            <input class="form-control m-auto" id='nombre' name='nombre' required/>
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Password</label>
+            <input class="form-control m-auto" id='password' name='password' required/>
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Repita la password</label>
+            <input class="form-control m-auto" id='password-2' name='password_2' required/>
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Años de experiencia</label>
+            <input class="form-control m-auto" id='anhos' name='anhos' required/>
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Especialidad</label>
+            <input class="form-control m-auto" id='especialidad' name='especialidad' required/>
+          </div>
+          <div class="form-group col-12 col-sm-12">
+            <label>Foto de perfil</label>
+            <input 
+              type="file" 
+              name='foto' 
+              id='foto'
+            required/> 
+          </div>
+        </div>
+        <button 
+          type='submit'
+          class="btn btn-info mb-3"
+          >Registrarme</button>
+        <p><a href="/login"> Iniciar sesión</a></p>
+      </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+</script>
+
+
+<script>
+  let url = 'http://localhost:3000/usuario';
+  let email = document.getElementById('email');
+  let nombre = document.getElementById('nombre');
+  let password = document.getElementById('password');
+  let password_2 = document.getElementById('password-2');
+  let anhos = document.getElementById('anhos');
+  let especialidad = document.getElementById('especialidad');
+
+  document.getElementById("form").addEventListener("submit", async (event)=>
+   {
+event.preventDefault()
+
+    email;
+    nombre;
+    password;
+    password_2;
+    anhos;
+    especialidad;
+    let nombre_foto = document.getElementById('foto').files[0].name;
+
+    if (password.value !== password_2.value) {
+      alert('Los contraseñas no coinciden')
+
+    } else {
+
+        let payload = {
+        email: email.value,
+        nombre: nombre.value,
+        password: password.value,
+        anhos: anhos.value,
+        especialidad: especialidad.value,
+        nombre_foto: nombre_foto,
+      }
+    
+      try {
+        var frm = document.getElementById('form');
+let formData = new FormData(frm);
+        await axios.post(url,formData,{
+      headers: {
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+      },
+    })
+        
+        .then(() => {
+         // axios.post('http://localhost:3000/subir_foto')
+        });
+        alert('Usuario registrado con éxito')
+       // {{!-- window.location.href = '/login' --}}
+      } catch (error) {
+       // const { data } = response
+        //const { error } = data
+        //alert(error)
+        console.log(error)
+      }
+    }
+  })
+
+</script>
